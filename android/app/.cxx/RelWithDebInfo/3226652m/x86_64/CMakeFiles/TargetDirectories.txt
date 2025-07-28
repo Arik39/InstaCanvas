@@ -1,0 +1,2 @@
+D:/Development/InstaCanvas/android/app/.cxx/RelWithDebInfo/3226652m/x86_64/CMakeFiles/edit_cache.dir
+D:/Development/InstaCanvas/android/app/.cxx/RelWithDebInfo/3226652m/x86_64/CMakeFiles/rebuild_cache.dir
