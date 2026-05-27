@@ -23,7 +23,9 @@ class AssetSvgIcon extends StatelessWidget {
       onTap: onTap == null ? null : () => onTap!(),
       child: SvgPicture.asset(
         'assets/svgIcons/$iconName.svg',
-        color: color,
+        colorFilter: color == null
+            ? null
+            : ColorFilter.mode(color!, BlendMode.srcIn),
         height: height,
         width: width,
       ),

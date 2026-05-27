@@ -11,7 +11,7 @@ Color getPrimaryColor(BuildContext context) {
 }
 
 const Color greenPrimary = Color(0xFF10B981);
-Color disabledColor = const Color(0xFF4A9F63).withOpacity(.5);
+Color disabledColor = const Color(0xFF4A9F63).withValues(alpha: .5);
 
 // Custom back Button
 Color getAppBackground(BuildContext context) {
@@ -201,7 +201,7 @@ Color getPrimaryFadeBorder(BuildContext context) {
   final themeMode = Theme.of(context).brightness;
 
   if (themeMode == Brightness.light) {
-    return const Color(0xFF72CD95).withOpacity(0.4); // Light mode color
+    return const Color(0xFF72CD95).withValues(alpha: 0.4); // Light mode color
   } else {
     // Handle dark mode color here
     return const Color(0xFFFFFFFF); // Example dark mode color

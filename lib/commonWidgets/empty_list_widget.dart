@@ -25,7 +25,7 @@ class EmptyListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     dW = MediaQuery.of(context).size.width;
-    tS = MediaQuery.of(context).textScaleFactor;
+    tS = MediaQuery.textScalerOf(context).scale(1.0);
 
     return Container(
       margin: EdgeInsets.only(

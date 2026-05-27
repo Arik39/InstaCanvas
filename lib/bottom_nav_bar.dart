@@ -54,7 +54,6 @@ class BottomNavBarState extends State<BottomNavBar> {
   @override
   Widget build(BuildContext context) {
     final dW = MediaQuery.of(context).size.width;
-    final dH = MediaQuery.of(context).size.height;
     language = Provider.of<AuthProvider>(context).selectedLanguage;
 
     return Scaffold(

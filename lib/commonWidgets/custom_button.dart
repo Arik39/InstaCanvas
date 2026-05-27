@@ -42,7 +42,7 @@ class CustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double tS = MediaQuery.of(context).textScaleFactor;
+    final double tS = MediaQuery.textScalerOf(context).scale(1.0);
     return Container(
       width: width,
       height: height,

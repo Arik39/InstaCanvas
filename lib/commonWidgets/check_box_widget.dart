@@ -39,7 +39,7 @@ class CheckBoxWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    final textScaleFactor = MediaQuery.textScalerOf(context).scale(1.0);
     final deviceWidth = MediaQuery.of(context).size.width;
 
     return GestureDetector(

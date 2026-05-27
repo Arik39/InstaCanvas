@@ -140,7 +140,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                         .copyWith(fontWeight: FontWeight.w500),
                   ),
                   Text(
-                    '${savedImages.length} ' + language['files'],
+                    '${savedImages.length} ${language['files']}',
                     style: customTextTheme.displayLarge!
                         .copyWith(color: getSubTitle(context)),
                   ),

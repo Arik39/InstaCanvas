@@ -1,6 +1,9 @@
 gradle-wrapper.jar
 /.gradle
 /captures/
+# Native build outputs (CMake/NDK) — should never be committed
+app/.cxx/
+**/.cxx/
 /gradlew
 /gradlew.bat
 /local.properties

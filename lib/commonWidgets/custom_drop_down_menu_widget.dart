@@ -64,9 +64,7 @@ class _CustomDropDownMenuWidgetState extends State<CustomDropDownMenuWidget> {
         .of(context)
         .size
         .width;
-    tS = MediaQuery
-        .of(context)
-        .textScaleFactor;
+    tS = MediaQuery.textScalerOf(context).scale(1.0);
     language = Provider
         .of<AuthProvider>(context)
         .selectedLanguage;

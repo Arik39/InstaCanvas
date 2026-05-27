@@ -1,37 +1,61 @@
 import 'dart:io';
-import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
+import 'package:gal/gal.dart';
 
 import 'package:insta_canvas/common_functions.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:insta_canvas/models/instagram_profile_model.dart';
 
-import 'package:insta_canvas/api_service.dart'; // Add this import
+import 'package:insta_canvas/api_service.dart';
 import 'package:http/http.dart' as http;
 
 class HomeProvider extends ChangeNotifier {
-  late String _imgUrl;
-  late String username;
-  double? _downloadProgress;
+  String imgUrl = '';
+  String username = '';
 
   Uint8List? _imageBytes;
   InstagramProfileModel? _profileData;
+  bool _isSaving = false;
 
   Uint8List? get imageBytes => _imageBytes;
   InstagramProfileModel? get profileData => _profileData;
-
-  String get imgUrl => _imgUrl;
+  bool get isSaving => _isSaving;
 
   File? file;
 
-  set imgUrl(String value) {
-    _imgUrl = value;
-  }
-
+  /// Save the currently fetched profile picture to the device gallery.
   Future<bool> downloadFile() async {
-    return false;
+    if (_imageBytes == null) {
+      showSnackbar("Nothing to save yet");
+      return false;
+    }
+    try {
+      _isSaving = true;
+      notifyListeners();
+
+      // gal handles the gallery permission request internally.
+      if (!await Gal.hasAccess()) {
+        await Gal.requestAccess();
+      }
+
+      // gal saves from a file path; write the bytes to a temp file first.
+      final dir = await getTemporaryDirectory();
+      final filePath = '${dir.path}/${_generateFileName(username)}';
+      await File(filePath).writeAsBytes(_imageBytes!);
+
+      await Gal.putImage(filePath, album: 'InstaCanvas');
+      showSnackbar("Saved to gallery");
+      return true;
+    } catch (e) {
+      debugPrint('Error saving to gallery: $e');
+      showSnackbar("Could not save image");
+      return false;
+    } finally {
+      _isSaving = false;
+      notifyListeners();
+    }
   }
 
   /// Fetch Instagram profile information using the new typed model
@@ -59,32 +83,32 @@ class HomeProvider extends ChangeNotifier {
         return false;
       }
     } catch (e) {
-      print('Error fetching profile: $e');
+      debugPrint('Error fetching profile: $e');
       showSnackbar("Something went wrong. Please try again!");
       return false;
     }
   }
 
-  /// Download profile picture from URL
+  /// Download profile picture from URL into memory (and app storage cache)
   Future<void> _downloadProfilePicture(String imageUrl) async {
     try {
       final response = await http.get(Uri.parse(imageUrl));
       if (response.statusCode == 200) {
         _imageBytes = response.bodyBytes;
 
-        // Save to local storage
+        // Cache to app-private storage
         Directory? externalDir = await getExternalStorageDirectory();
-        externalDir = Directory('${externalDir!.path}/savedImages/');
-        if (!await externalDir.exists()) {
-          Directory(externalDir.path).create();
+        if (externalDir != null) {
+          externalDir = Directory('${externalDir.path}/savedImages/');
+          if (!await externalDir.exists()) {
+            await externalDir.create(recursive: true);
+          }
+          final filePath = '${externalDir.path}${_generateFileName(username)}';
+          await File(filePath).writeAsBytes(_imageBytes!);
         }
-
-        String filePath = externalDir.path + _generateFileName(username);
-        File imageFile = File(filePath);
-        await imageFile.writeAsBytes(_imageBytes!);
       }
     } catch (e) {
-      print('Error downloading profile picture: $e');
+      debugPrint('Error downloading profile picture: $e');
     }
   }
 
@@ -112,13 +136,15 @@ class HomeProvider extends ChangeNotifier {
         if (username.contains("@")) {
           showSnackbar("Please enter username without @");
         } else {
-          showSnackbar("No username found");
+          // Surface the real reason (rate limit, not found, network) instead
+          // of always blaming the username.
+          showSnackbar(profilePicData['error']?.toString() ?? "No username found");
         }
-
-        throw Exception("No image Found");
+        return false;
       }
     } catch (e) {
-      print(e);
+      debugPrint('$e');
+      showSnackbar("Something went wrong. Please try again!");
       return false;
     }
   }
@@ -134,7 +160,7 @@ class HomeProvider extends ChangeNotifier {
     if (username.contains('.')) {
       username = username.replaceAllMapped('.', (match) => ' ');
     }
-    return username + "-" + formattedDate + "-" + formattedTime + ".jpg";
+    return '$username-$formattedDate-$formattedTime.jpg';
   }
 
   /// Get formatted follower count

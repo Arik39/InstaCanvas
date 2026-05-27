@@ -37,7 +37,7 @@ class CustomBackButton2 extends StatelessWidget {
           color: backgroundColor ?? getCustomBackIconBgColor(context),
           boxShadow: [
             BoxShadow(
-                color: Colors.black.withOpacity(.15),
+                color: Colors.black.withValues(alpha: .15),
                 offset: const Offset(0, 4),
                 blurRadius: 10)
           ],

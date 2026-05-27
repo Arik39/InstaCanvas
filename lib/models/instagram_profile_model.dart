@@ -40,12 +40,12 @@ class InstagramProfileModel {
 
   factory InstagramProfileModel.success({
     required String username,
-    required String profilePicUrl,
-    required String fullName,
-    required int followerCount,
-    required int followingCount,
-    required bool isPrivate,
-    required bool isVerified,
+    String? profilePicUrl,
+    String? fullName,
+    int? followerCount,
+    int? followingCount,
+    bool? isPrivate,
+    bool? isVerified,
   }) {
     return InstagramProfileModel(
       success: true,

@@ -45,7 +45,7 @@ class CustomContainer extends StatelessWidget {
         color: bgColor,
         borderRadius: BorderRadius.circular(radius),
         border: Border.all(
-          color: borderColor ?? getThemeColor().withOpacity(.2),
+          color: borderColor ?? getThemeColor().withValues(alpha: .2),
           width: borderWidth,
         ),
         boxShadow: boxShadow ??

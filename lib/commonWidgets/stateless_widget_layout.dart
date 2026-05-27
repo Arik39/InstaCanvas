@@ -21,7 +21,7 @@ class NewWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     dH = MediaQuery.of(context).size.height;
     dW = MediaQuery.of(context).size.width;
-    tS = MediaQuery.of(context).textScaleFactor;
+    tS = MediaQuery.textScalerOf(context).scale(1.0);
     language = Provider.of<AuthProvider>(context).selectedLanguage;
 
     customTextTheme = Theme.of(context).textTheme;

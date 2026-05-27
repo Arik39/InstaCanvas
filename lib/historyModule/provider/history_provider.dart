@@ -24,7 +24,7 @@ class HistoryProvider extends ChangeNotifier {
       savedImages = files.whereType<File>().toList().reversed.toList();
       return savedImages;
     } catch (e) {
-      print(e);
+      debugPrint('$e');
       return [];
     }
   }
@@ -46,7 +46,7 @@ class HistoryProvider extends ChangeNotifier {
       showSnackbar('File Downloaded successfully to Download Folder',
           color: Colors.green);
     } catch (e) {
-      print('Error: $e');
+      debugPrint('Error: $e');
     }
   }
 
@@ -56,7 +56,7 @@ class HistoryProvider extends ChangeNotifier {
       savedImages.remove(imageFile);
       notifyListeners();
     } catch (e) {
-      print("Error deleting image: $e");
+      debugPrint("Error deleting image: $e");
     }
   }
 }

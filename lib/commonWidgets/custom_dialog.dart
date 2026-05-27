@@ -24,7 +24,7 @@ class CustomDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double dW = MediaQuery.of(context).size.width;
-    final double tS = MediaQuery.of(context).textScaleFactor;
+    final double tS = MediaQuery.textScalerOf(context).scale(1.0);
     return AlertDialog(
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(8)),

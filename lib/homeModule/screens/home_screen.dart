@@ -71,8 +71,6 @@ class _HomeScreenState extends State<HomeScreen> {
   bool isImageFectched = false;
   bool imageFounded = false;
 
-  String? _profilePicUrl;
-
   late HomeProvider homeProvider;
 
   TextEditingController textEditingController = TextEditingController();
@@ -197,6 +195,31 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ),
                               SizedBox(height: dW * 0.05),
+                              Consumer<HomeProvider>(
+                                builder: (context, provider, _) =>
+                                    ElevatedButton.icon(
+                                  onPressed: provider.isSaving
+                                      ? null
+                                      : () => provider.downloadFile(),
+                                  icon: provider.isSaving
+                                      ? const SizedBox(
+                                          width: 18,
+                                          height: 18,
+                                          child: CircularProgressIndicator(
+                                              strokeWidth: 2,
+                                              color: Colors.white),
+                                        )
+                                      : const Icon(Icons.download_rounded),
+                                  label: Text(provider.isSaving
+                                      ? 'Saving...'
+                                      : 'Save to gallery'),
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor:
+                                          getTextFieldBackground(context),
+                                      foregroundColor: Colors.white),
+                                ),
+                              ),
+                              SizedBox(height: dW * 0.05),
                             ],
                           ),
                         ),
@@ -245,7 +268,7 @@ class _HomeScreenState extends State<HomeScreen> {
       // if (imageFounded == true) showSearchInterstitialAd();
     } catch (e) {
       // Handle error
-      print(e);
+      debugPrint('$e');
     } finally {
       setState(() {
         isImageFectched = false;

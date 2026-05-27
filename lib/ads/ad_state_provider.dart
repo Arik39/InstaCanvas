@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class AdState {
@@ -30,15 +31,15 @@ class AdState {
   BannerAdListener get adListener => _adListener;
 
   final BannerAdListener _adListener = BannerAdListener(
-      onAdLoaded: (ad) => print('Ad loaded: ${ad.adUnitId}.'),
-      onAdClosed: (ad) => print('Ad closed: ${ad.adUnitId}.'),
+      onAdLoaded: (ad) => debugPrint('Ad loaded: ${ad.adUnitId}.'),
+      onAdClosed: (ad) => debugPrint('Ad closed: ${ad.adUnitId}.'),
       onAdFailedToLoad: (ad, error) =>
-          print('Ad failed to load: ${ad.adUnitId}, $error.'),
-      onAdOpened: (ad) => print('ad opened: ${ad.adUnitId}'),
-      onAdClicked: (ad) => print('ad clicked: ${ad.adUnitId}.'),
-      onAdImpression: (ad) => print('ad impression: ${ad.adUnitId}.'),
-      onPaidEvent: (ad, valueMicros, precision, currencyCode) => print(
+          debugPrint('Ad failed to load: ${ad.adUnitId}, $error.'),
+      onAdOpened: (ad) => debugPrint('ad opened: ${ad.adUnitId}'),
+      onAdClicked: (ad) => debugPrint('ad clicked: ${ad.adUnitId}.'),
+      onAdImpression: (ad) => debugPrint('ad impression: ${ad.adUnitId}.'),
+      onPaidEvent: (ad, valueMicros, precision, currencyCode) => debugPrint(
           'ad paid:  ad=${ad.adUnitId}, valueMicros=$valueMicros, precision=${precision.name}, currencyCode=$currencyCode'),
       onAdWillDismissScreen: (ad) =>
-          print('ad will dismiss screen: ${ad.adUnitId}'));
+          debugPrint('ad will dismiss screen: ${ad.adUnitId}'));
 }
